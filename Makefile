@@ -5,15 +5,12 @@ export GOPROXY=https://goproxy.cn,direct
 export GO111MODULE=on
 # LDFLAGS := -s -w # https://docs.studygolang.com/cmd/link/
 
-all: build
-
-build: pinyin
-
+all:
+	go build -trimpath -ldflags "$(LDFLAGS)" -o ./bin/pinyin ./cmd/pinyin
+	
 fmt:
 	go fmt ./...
 
-pinyin:
-	go build -trimpath -ldflags "$(LDFLAGS)" -o ./bin/pinyin ./cmd/pinyin
 
 test:
 	go test -v --cover ./cmd/...
