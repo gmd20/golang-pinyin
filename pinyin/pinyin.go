@@ -175,6 +175,7 @@ func (d *Dict) Translate(s string, surnamesMode bool) string {
 		}
 	}
 
+	lastIsChinese := true
 	for len(sr) > 0 {
 		r := sr[0]
 
@@ -186,16 +187,18 @@ func (d *Dict) Translate(s string, surnamesMode bool) string {
 				}
 			}
 			if d.keepNonChinese {
-				if d.spaceDelimiter {
+				if d.spaceDelimiter && lastIsChinese {
 					pinyin.WriteString(" ")
 				}
 				pinyin.WriteRune(r)
 			}
 
 		next_char:
+			lastIsChinese = false
 			sr = sr[1:]
 			continue
 		}
+		lastIsChinese = true
 
 		ws := d.DB[r]
 		for i := 0; i < len(ws.w); i++ {
