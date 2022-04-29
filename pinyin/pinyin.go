@@ -3,6 +3,7 @@ package pinyin
 import (
 	"regexp"
 	"strings"
+	"unicode"
 	"unicode/utf8"
 )
 
@@ -220,4 +221,13 @@ func (d *Dict) Pinyin(s string) string {
 
 func (d *Dict) RenMing(s string) string {
 	return d.Translate(s, true)
+}
+
+func IsChinese(str string) bool {
+	for _, v := range str {
+		if unicode.Is(unicode.Han, v) {
+			return true
+		}
+	}
+	return false
 }
