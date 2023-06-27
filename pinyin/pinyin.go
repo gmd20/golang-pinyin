@@ -152,7 +152,7 @@ func matchWord(w *Word, s []int32) ([]int32, bool) {
 	return s, true
 }
 
-func (d *Dict) Translate(s string, surnamesMode bool) string {
+func (d *Dict) Translate(s string, surnamesMode bool, onlySurname bool) string {
 	var pinyin strings.Builder
 	var sr []int32
 
@@ -170,9 +170,16 @@ func (d *Dict) Translate(s string, surnamesMode bool) string {
 				sr, ok = matchWord(&ws.w[i], sr)
 				if ok {
 					pinyin.WriteString(ws.w[i].pinyin)
+					if onlySurname {
+						return strings.TrimSpace(pinyin.String())
+					}
 					break
 				}
 			}
+		}
+
+		if onlySurname {
+			sr = sr[:1]
 		}
 	}
 
@@ -216,11 +223,15 @@ func (d *Dict) Translate(s string, surnamesMode bool) string {
 }
 
 func (d *Dict) Pinyin(s string) string {
-	return d.Translate(s, false)
+	return d.Translate(s, false, false)
 }
 
 func (d *Dict) RenMing(s string) string {
-	return d.Translate(s, true)
+	return d.Translate(s, true, false)
+}
+
+func (d *Dict) XingShi(s string) string {
+	return d.Translate(s, true, true)
 }
 
 func IsChinese(str string) bool {

@@ -25,7 +25,10 @@ func main() {
 		if len(s) == 0 {
 			break
 		}
-		s = d.RenMing(s)
-		fmt.Println(s)
+		s1 := d.RenMing(s)
+		fmt.Println(s1)
+
+		s2 := d.XingShi(s)
+		fmt.Println("姓：", s2)
 	}
 }
